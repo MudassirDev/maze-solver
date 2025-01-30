@@ -1,24 +1,28 @@
-from cell import Cell
+import sys
+
 from maze import Maze
-from window import *
+from window import Window
 
 
 def main():
-    win = Window(800, 800)
+    num_rows = 12
+    num_cols = 16
+    margin = 50
+    screen_x = 800
+    screen_y = 600
+    cell_size_x = (screen_x - 2 * margin) / num_cols
+    cell_size_y = (screen_y - 2 * margin) / num_rows
 
-    cell1 = Cell(100, 100, 150, 150, win)
-    cell2 = Cell(150, 100, 200, 150, win)
-    cell3 = Cell(100, 150, 150, 200, win)  # Cell below
+    sys.setrecursionlimit(10000)
+    win = Window(screen_x, screen_y)
 
-    # Draw all cells
-    cell1.draw()
-    cell2.draw()
-    cell3.draw()
-
-    # Test different moves
-    cell1.draw_move(cell2)
-    cell1.draw_move(cell3)
-
+    maze = Maze(margin, margin, num_rows, num_cols, cell_size_x, cell_size_y, win, 10)
+    print("maze created")
+    is_solvable = maze.solve()
+    if not is_solvable:
+        print("maze can not be solved!")
+    else:
+        print("maze solved!")
     win.wait_for_close()
 
 
